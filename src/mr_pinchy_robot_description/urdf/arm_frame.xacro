@@ -1,0 +1,137 @@
+<?xml version = "1.0"?>
+
+<robot  xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <link name="arm_base">
+        <visual>
+            <geometry>
+                    <mesh filename="file:///home/mustafa/ros2_ws/src/mr_pinchy_robot_description/meshes/arm_base.stl" scale="0.001 0.001 0.001"/>
+
+                    <!-- <mesh filename="package://mr_pinchy_robot_description/meshes/arm_base.stl" scale="0.001 0.001 0.001"/> -->
+            </geometry>
+            <origin xyz="-0.06 -0.05 -0.05" rpy="${pi/2} 0 ${pi/2}"/>
+            <!-- <material> Gazebo/Red </material> -->
+        </visual>
+         <xacro:default_inertial />
+         <collision>
+            <origin xyz="-0.06 -0.05 -0.05" rpy="${pi/2} 0 ${pi/2}"/>
+  20      <geometry>
+                <box size = "0.05 0.05 0.05"/>
+            </geometry>
+  23    </collision>
+    </link>
+    
+
+     <link name="arm_link_1">
+        <visual>
+            <geometry>
+            <mesh filename="file:///home/mustafa/ros2_ws/src/mr_pinchy_robot_description/meshes/link_1.stl" scale="0.001 0.001 0.001"/>
+
+                    <mesh filename="package://mr_pinchy_robot_description/meshes/link_1.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <origin xyz="-0.03 0 -0.02" rpy="${pi/2} 0 ${pi/2}"/>
+        </visual>
+        <collision>
+            <origin xyz="-0.03 0 -0.02" rpy="${pi/2} 0 ${pi/2}"/>
+  20      <geometry>
+                <box size = "0.2 0.05 0.05"/>
+            </geometry>
+  23    </collision>
+        <xacro:default_inertial />
+    </link>
+
+    <link name="arm_link_2">
+        <visual>
+            <geometry>
+                        <mesh filename="file:///home/mustafa/ros2_ws/src/mr_pinchy_robot_description/meshes/link_2.stl" scale="0.001 0.001 0.001"/>
+
+                    <!-- <mesh filename="package://mr_pinchy_robot_description/meshes/link_2.stl" scale="0.001 0.001 0.001"/> -->
+            </geometry>
+            <origin xyz="0.15 0 -0.02" rpy="${pi/2} 0 ${1.5*pi }"/>
+        </visual>
+        <collision>
+            <origin xyz="0.15 0 -0.02" rpy="${pi/2} 0 ${1.5*pi }"/>
+  20      <geometry>
+                <box size = "0.2 0.05 0.05"/>
+            </geometry>
+  23    </collision>
+         <xacro:default_inertial />
+    </link>
+
+    <joint name="armbase_link1_joint" type = "revolute">
+        <parent link="arm_base"/>
+        <child link="arm_link_1"/>
+        <origin xyz="0 0 0.04" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="${-pi/2}" upper="0" effort="100" velocity="100"/>
+    </joint>
+
+    <joint name="link1_link2_joint" type = "revolute">
+        <parent link="arm_link_1"/>
+        <child link="arm_link_2"/>
+        <origin xyz="0.2 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="${-pi/2}" upper="${pi/2}" effort="100" velocity="100"/>
+    </joint>
+
+    <gazebo reference="arm_base">
+        <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="arm_link_1">
+        <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="arm_link_2">
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+<transmission name="armbase_link1_joint_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="armbase_link1_joint">
+    <hardwareInterface>position</hardwareInterface>
+  </joint>
+  <actuator name="base_link1_ac">
+    <hardwareInterface>position</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+    <!-- <ros2_control name="RobotHardware" type="system" >
+        <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>            
+        </hardware>
+        <joint name="armbase_link1_joint" >
+            <command_interface name="position">
+                <param name="min">-1.57</param>
+                <param name="max">0</param>
+            </command_interface>
+            <state_interface name="position"/>
+        </joint>
+    </ros2_control> -->
+
+
+<transmission name="link1_2_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="link1_link2_joint">
+    <hardwareInterface>position</hardwareInterface>
+  </joint>
+  <actuator name="link1_link2_ac">
+    <hardwareInterface>position</hardwareInterface>
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+    <ros2_control name="RobotHardware" type="system" >
+        <hardware>
+      <plugin>gz_ros2_control/GazeboSimSystem</plugin>            
+        </hardware>
+        <joint name="armbase_link1_joint">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+  </joint>
+
+  <joint name="link1_link2_joint">
+    <command_interface name="position"/>
+    <state_interface name="position"/>
+  </joint>
+    </ros2_control>
+
+</robot>

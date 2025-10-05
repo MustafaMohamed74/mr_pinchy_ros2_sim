@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot>
+   <gazebo>
+         <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+                 <right_joint>base_right_wheel_joint</right_joint>
+            <left_joint>base_left_wheel_joint</left_joint>
+            <wheel_separation>0.4</wheel_separation>
+            <wheel_radius>0.1</wheel_radius>
+
+            <max_linear_acceleration>10</max_linear_acceleration>
+            <max_angular_acceleration>10</max_angular_acceleration>
+
+            <topic>cmd_vel</topic>
+        </plugin>
+
+        <plugin filename="gz-sim-odometry-publisher-system"
+                                        name="gz::sim::systems::OdometryPublisher">
+            <odom_frame>odom</odom_frame>
+            <robot_base_frame>base_footprint</robot_base_frame>
+            <odom_publish_frequency>50</odom_publish_frequency>
+            <odom_topic>/odom</odom_topic>
+            <tf_topic>/tf</tf_topic>
+            <dimensions>2</dimensions>
+        </plugin>
+      
+        <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher">
+            <topic>joint_states</topic>
+            <right_joint>base_right_wheel_joint</right_joint>
+            <left_joint>base_left_wheel_joint</left_joint>
+        </plugin>
+
+      <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+    <parameters>$(find mr_pinchy_robot_bringup)/config/controllers.yaml</parameters>
+</plugin>
+
+
+    </gazebo>
+</robot>

@@ -1,0 +1,17 @@
+controller_manager:
+  ros__parameters:
+    use_sim_time: true
+    update_rate: 10
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+    
+    forward_position_controller:
+      type: forward_command_controller/ForwardCommandController
+
+forward_position_controller:
+  ros__parameters:
+    joints:
+      - armbase_link1_joint
+      - link1_link2_joint
+    interface_name: position

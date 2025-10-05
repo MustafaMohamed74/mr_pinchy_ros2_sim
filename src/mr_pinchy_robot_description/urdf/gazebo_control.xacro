@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <gazebo>
+  <plugin filename="gz-sim-diff-drive-system"
+          name="gz::sim::systems::DiffDrive">
+          
+
+    <left_joint>base_left_wheel_joint</left_joint>
+    <right_joint>base_right_wheel_joint</right_joint>
+    <wheel_separation>0.45</wheel_separation>
+    <wheel_radius>0.1</wheel_radius>
+
+    <odom_frame>odom</odom_frame>
+    <base_frame>base_footprint</base_frame>
+
+<command_topic>/model/my_robot/cmd_vel</command_topic>
+
+  </plugin>
+</gazebo>
+
+</robot>
