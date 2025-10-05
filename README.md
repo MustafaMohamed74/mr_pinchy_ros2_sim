@@ -1,9 +1,4 @@
-Perfect — here’s your **final README.md** with your project details, structure, controls, and the added note that it’s a great reference for beginners using Gazebo Harmonic and ROS 2 Jazzy.
-You can copy-paste this directly into your repository as `README.md`.
 
----
-
-```markdown
 # 🤖 Mr. Pinchy Robot – ROS 2 Jazzy + Gazebo Harmonic Simulation
 
 **Mr. Pinchy** is a custom differential-drive robot with an articulated arm, designed and built completely from scratch using URDF/Xacro, Gazebo plugins, and ROS 2 Jazzy.  
